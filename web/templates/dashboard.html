@@ -5,21 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="icon" href="FEVICON.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* 🔥 Red-Purple Gradient Background */
         body {
-            background: linear-gradient(to right, #8e0e00, #1f1c18);
+            background: url("CAMERA.jpg") no-repeat center center fixed;
+            background-size: cover;
             color: white;
-            padding: 20px;
+            min-width: 400px;
+            margin: 0;
         }
-
-        .container {
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.1);
-            /* Transparent white */
+        .new {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.1); 
             padding: 20px;
+            border-radius: 12px;
+            display: block;
+        }
+        .Take {
+            width: 100%;
+            display: block;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            color: white;
+            font-size: 10rem;
+            font-weight: bold;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #ff4e50, #f9d423);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bold-text {
+            font-weight: 700;
+        }
+        .container {
+            height: 100%;
+            display: block;
+            margin-top: 50px;
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 20px;
             border-radius: 12px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
@@ -27,6 +58,7 @@
 
         /* 🌟 Buttons with Red-Purple Gradient */
         .btn-custom {
+            background: linear-gradient(to right, #ff9a44, #ff6138);
             width: 100%;
             border: none;
             padding: 10px;
@@ -35,6 +67,16 @@
             color: white;
         }
 
+        .blur-box {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(0, 0, 0, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4); 
+        }
         .btn-success {
             background: linear-gradient(to right, #ff416c, #ff4b2b);
         }
@@ -57,8 +99,12 @@
 
         /* 🔥 Button Hover Effect */
         .btn-custom:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
+            transform: scale(1.01);
+            opacity: 0.98;
+        }
+
+        .btn-custom {
+            transition: all 0.2s ease;
         }
 
         /* 🎨 Table Custom Styling */
@@ -92,79 +138,153 @@
             background: rgba(255, 255, 255, 0.3);
             color: white;
         }
+
+
+        .f-info-links a{
+            text-decoration: none;
+            color:  #e8e0e0;
+        }
+        .f-info-links a:hover{
+            text-decoration: underline;
+        }
+        .f-info-links,
+        .f-info-socials,
+        .f-info-brand {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .f-info-socials i {
+            font-size: 1.6rem;
+            margin-right: 1rem;
+        }
+        .f-info {
+            width: 100%;
+            height: 8rem;
+            background-color: #201e1e;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center; 
+            color: #e8e0e0;
+            text-align: center;
+        }
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2 class="text-center">Welcome, {{ user }}!</h2>
 
+    <div class="new">
+        <h1 class="Take">
+          <span class="gradient-text">FACE-</span><span class="bold-text">RECO</span>
+        </h1>
+    </div>
+   
+    <div class="container">
+        <h2 class="text-center">
+            Welcome, <span style="background: linear-gradient(to right, #ff4e50, #f9d423); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ user }}</span>!
+        </h2>
         {% if user == "admin" %}
-        <h3 class="mt-4">Admin Options:</h3>
-        <div class="row">
-            <div class="col-md-6">
-                <button onclick="startFaceRecognition()" class="btn btn-success btn-custom my-2">Start Face
-                    Recognition</button>
-            </div>
-            <div class="col-md-6">
-                <form action="/collect_samples" method="POST" onsubmit="return showSamplePopup()">
-                    <div class="input-group my-2">
-                        <input type="text" name="name" class="form-control" placeholder="Enter Name" required>
-                        <button type="submit" class="btn btn-primary">Collect Samples</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <button onclick="trainModel()" class="btn btn-warning btn-custom my-2">Train Model</button>
-            </div>
-            <div class="col-md-6">
-                <a href="/logs" class="btn btn-info btn-custom my-2">📜 View Logs</a>
+        <!-- Admin Options -->
+        <div class="blur-box mt-4">
+            <h3>Admin Options:</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="/collect_samples" method="POST" onsubmit="return showSamplePopup()">
+                        <div class="input-group my-2">
+                            <input type="text" name="name" class="form-control" placeholder="Enter Name" required>
+                            <button type="submit" class="btn btn-primary">Collect Samples</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <button onclick="trainModel()" class="btn btn-dark btn-custom my-2">Train Model</button>
+                </div>
+                <div class="col-md-6">
+                    <button onclick="startFaceRecognition()" class="btn btn-success btn-custom my-2">Start Face Recognition</button>
+                </div>
+                <div class="col-md-6">
+                    <a href="/logs" class="btn btn-primary btn-custom my-2">📜 View Logs</a>
+                </div>
             </div>
         </div>
-
-        <h3 class="mt-4">Manage Users:</h3>
-        <form action="/add_person" method="POST" onsubmit="return showAddPopup()">
-            <div class="input-group">
-                <input type="text" name="new_person" class="form-control" placeholder="Enter Name" required>
-                <button type="submit" class="btn btn-success">Add Person</button>
-            </div>
-        </form>
-        <form action="/remove_person" method="POST" onsubmit="return showRemovePopup()">
-            <div class="input-group my-2">
-                <input type="text" name="remove_person" class="form-control" placeholder="Enter Name" required>
-                <button type="submit" class="btn btn-danger">Remove Person</button>
-            </div>
-        </form>
+    
+        <!-- Manage Users -->
+        <div class="blur-box">
+            <h3>Manage Users:</h3>
+            <form action="/add_person" method="POST" onsubmit="return showAddPopup()">
+                <div class="input-group">
+                    <input type="text" name="new_person" class="form-control" placeholder="Enter Name" required>
+                    <button type="submit" class="btn btn-success">&nbsp&nbsp  Add Person  &nbsp&nbsp</button>
+                </div>
+            </form>
+            <form action="/remove_person" method="POST" onsubmit="return showRemovePopup()">
+                <div class="input-group my-2">
+                    <input type="text" name="remove_person" class="form-control" placeholder="Enter Name" required>
+                    <button type="submit" class="btn btn-success">Remove Person</button>
+                </div>
+            </form>
+        </div>
         {% else %}
-        <h3 class="mt-4">User Options:</h3>
-        <button onclick="startFaceRecognition()" class="btn btn-success btn-custom my-2">Start Face Recognition</button>
+        <!-- User Options -->
+        <div class="blur-box mt-4">
+            <h3>User Options:</h3>
+            <button onclick="startFaceRecognition()" class="btn btn-success btn-custom my-2">Start Face Recognition</button>
+        </div>
         {% endif %}
-
-        <h3 class="mt-4">Attendance Records:</h3>
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in attendance %}
-                <tr>
-                    <td>{{ record[0] }}</td>
-                    <td>{{ record[1] }}</td>
-                    <td>{{ record[2] }}</td>
-                    <td>{{ record[3] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="/logout" class="btn btn-secondary btn-custom mt-3">Logout</a>
+    
+        <!-- Attendance Records -->
+        <div class="blur-box mt-4">
+            <h3>Attendance Records:</h3>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance %}
+                    <tr>
+                        <td>{{ record[0] }}</td>
+                        <td>{{ record[1] }}</td>
+                        <td>{{ record[2] }}</td>
+                        <td>{{ record[3] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+        <a href="/logout" class="btn btn-warning btn-custom mt-3">Logout</a>
     </div>
-
+    <br><br><br><br>
+    <div class="page-container">
+        <!-- Dashboard content goes here -->
+    
+        <footer class="f-info">
+          <div class="f-info-socials">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-linkedin"></i>
+          </div>
+          <div class="f-info-brand">&copy; Face Recognition</div>
+          <div class="f-info-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+          </div>
+        </footer>
+    </div>
+    
     <script>
         function showAddPopup() {
             Swal.fire({
